@@ -1,10 +1,12 @@
+import datetime
+
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from .models import User, Post
+from .models import User, Post, Like, Follower
 
 
 def index(request):
@@ -12,10 +14,12 @@ def index(request):
     posts = Post.objects.all()
     if request.method == "POST":
         get_post = request.POST.get('post')
+        time_now = datetime.datetime.now()
+        time = time_now.strftime("%B %d, %Y")
         print(get_post)
-        user = "placeholder_user"
+        user = request.user
         likes = 0
-        post = Post(post=get_post, user=user)
+        post = Post(post=get_post, user=user, time=time, likes=likes)
         post.save()
         return HttpResponseRedirect(reverse("index"))
     return render(request, "network/index.html", {
@@ -75,3 +79,25 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+def profile(request, username):
+    if request.user in Follower.objects.filter(user_followed=request.user):
+        follow_status = "Unfollow" # pseudo if request user follow user username follow status = "unfollow"
+    else:
+        follow_status = "Follow"
+    print(username)
+    username = get_object_or_404(User, username=username)
+    current_user = request.user
+    print(current_user)
+    posts = Post.objects.filter(user_id=username)
+    if request.method == "POST":
+        user_followed = request.user
+        user_following = username
+        follower = Follower(user_followed=user_followed, user_following=user_following)
+
+        return(None)
+    return render(request, "network/profile.html", {
+    "username": username,
+    "posts": posts,
+    "follow_status": follow_status
+    })

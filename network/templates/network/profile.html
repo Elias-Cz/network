@@ -1,0 +1,36 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+<h3>{{ username }}</h3>
+
+Followers:{{ followers }}
+Folowing:{{ following }}
+<form class="follow" action="" method="post">
+  <button type="submit" name="button">{{ follow_status }}</button>
+  {% csrf_token %}
+</form>
+<br>
+Posts:
+<br>
+
+{% for post in posts %}
+
+  <div class="post">
+    <a href="{% url 'profile' username=post.user %}"><strong>{{ post.user }}</strong></a>
+    <br>
+    {{ post.post }}
+    <br>
+    <div class="like">
+      {{ post.likes }} Likes
+      <a href=""class="likes">Like</a>
+    </div>
+    {{ post.time }}
+  </div>
+{% endfor %}
+
+
+{% endif %}
+
+{% endblock %}

@@ -14,15 +14,17 @@
   <hr>
   <div class="">
     {% for post in posts %}
+
       <div class="post">
+        <a href="{% url 'profile' username=post.user %}"><strong>{{ post.user }}</strong></a>
+        <br>
         {{ post.post }}
         <br>
-        {{ post.user }}
-        <br>
         <div class="like">
-          {{ post.likes }}
+          {{ post.likes }} Likes
+          <a href=""class="likes">Like</a>
         </div>
-        <a href="#">Like</a>
+        {{ post.time }}
       </div>
     {% endfor %}
   </div>
