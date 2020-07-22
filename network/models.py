@@ -1,3 +1,4 @@
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -24,3 +25,6 @@ class Follower(models.Model):
     user_following = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name="user_following")
     # User who is gaining a follower
     user_followed = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name="user_followed")
+
+    def __str__(self):
+        return f"{self.user_following} follows {self.user_followed}"

@@ -102,7 +102,7 @@ def profile(request, username):
     if request.method == "POST" and not following:
         user_followed = current_user
         user_following = username
-        f = Follower.objects.create(user_followed=user_followed, user_following=user_following)
+        f = Follower(user_followed=user_followed, user_following=user_following)
         f.save()
         print(user_followed, ' followed ', user_following)
         return render(request, "network/profile.html", {
@@ -133,12 +133,20 @@ def profile(request, username):
 
 def following_view(request):
     current_user = request.user
-    current_user_follows = Follower.objects.filter(user_followed=current_user)
+    current_user_follows = current_user.user_followed.all()
     print(current_user_follows)
+    following = []
     posts = []
-    for follower in current_user_follows:
-        f = get_object_or_404(User, username=follower)
-        posts.append(f)
+    for follows in current_user_follows:
+        user = follows.user_following
+        following.append(user)
+        print(following)
+        for user in following:
+            p = Post.objects.filter(user=user).order_by('id')
+            posts.append(p)
+            print(p)
+
+
     return render(request, "network/following.html",{
     "posts": posts
     })
