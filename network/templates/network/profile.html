@@ -9,6 +9,7 @@ Followers:{{ followers }}
 Folowing:{{ following }}
 <form class="follow" action="" method="post">
   <button type="submit" name="button">{{ follow_status }}</button>
+  <input type="hidden" name="" value="follow_form">
   {% csrf_token %}
 </form>
 <br>

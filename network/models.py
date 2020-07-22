@@ -21,6 +21,6 @@ class Like(models.Model):
 
 class Follower(models.Model):
     # User who is FOLLOWING
-    user_following = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_following")
+    user_following = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name="user_following")
     # User who is gaining a follower
-    user_followed = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_followed")
+    user_followed = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name="user_followed")

@@ -81,23 +81,53 @@ def register(request):
         return render(request, "network/register.html")
 
 def profile(request, username):
-    if request.user in Follower.objects.filter(user_followed=request.user):
-        follow_status = "Unfollow" # pseudo if request user follow user username follow status = "unfollow"
-    else:
-        follow_status = "Follow"
-    print(username)
+    # Username of profile currently being used *NOT THE CURRENT USER*
     username = get_object_or_404(User, username=username)
     current_user = request.user
-    print(current_user)
-    posts = Post.objects.filter(user_id=username)
-    if request.method == "POST":
-        user_followed = request.user
-        user_following = username
-        follower = Follower(user_followed=user_followed, user_following=user_following)
+    following = username.user_following.filter(user_followed=current_user).exists()
 
-        return(None)
+    # Check if CURRENT USER follows {username}
+    if following:
+        print(current_user, ' follows ', username, '?: ', following)
+        follow_status = "Unfollow"
+    else:
+        print(current_user, ' follows ', username, '?: ', following)
+        follow_status = "Follow"
+
+    # Posts for users profile
+    posts = Post.objects.filter(user_id=username)
+
+    # Followers the user has
+    followers = username.user_following.all().count()
+
+    # Following a user
+    if request.method == "POST" and not following:
+        user_followed = current_user
+        user_following = username
+        f = Follower.objects.create(user_followed=user_followed, user_following=user_following)
+        f.save()
+        print(user_followed, ' followed ', user_following)
+        return render(request, "network/profile.html", {
+        "username": username,
+        "posts": posts,
+        "follow_status": follow_status,
+        "followers": followers
+        })
+
+        # Unfollowing a user
+    elif request.method == "POST" and following:
+        user_followed = current_user
+        user_following = username
+        Follower.objects.filter(user_followed=user_followed, user_following=user_following).delete()
+        return render(request, "network/profile.html", {
+        "username": username,
+        "posts": posts,
+        "follow_status": follow_status,
+        "followers": followers
+        })
     return render(request, "network/profile.html", {
     "username": username,
     "posts": posts,
-    "follow_status": follow_status
+    "follow_status": follow_status,
+    "followers": followers
     })
