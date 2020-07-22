@@ -27,8 +27,6 @@ def index(request):
     "msg": msg
     })
 
-
-
 def login_view(request):
     if request.method == "POST":
 
@@ -95,7 +93,7 @@ def profile(request, username):
         follow_status = "Follow"
 
     # Posts for users profile
-    posts = Post.objects.filter(user_id=username)
+    posts = Post.objects.filter(user_id=username).order_by('id').reverse()
 
     # Followers the user has
     followers = username.user_following.all().count()
@@ -131,3 +129,8 @@ def profile(request, username):
     "follow_status": follow_status,
     "followers": followers
     })
+
+def follow(request, username):
+    current_user = request.user
+    posts = "hey"
+    return None
