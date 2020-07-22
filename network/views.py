@@ -123,6 +123,7 @@ def profile(request, username):
         "follow_status": follow_status,
         "followers": followers
         })
+
     return render(request, "network/profile.html", {
     "username": username,
     "posts": posts,
@@ -130,7 +131,14 @@ def profile(request, username):
     "followers": followers
     })
 
-def follow(request, username):
+def following_view(request):
     current_user = request.user
-    posts = "hey"
-    return None
+    current_user_follows = Follower.objects.filter(user_followed=current_user)
+    print(current_user_follows)
+    posts = []
+    for follower in current_user_follows:
+        f = get_object_or_404(User, username=follower)
+        posts.append(f)
+    return render(request, "network/following.html",{
+    "posts": posts
+    })
