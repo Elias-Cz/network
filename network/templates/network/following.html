@@ -4,13 +4,26 @@
 
 
 
-{% for post in posts %}
+  {% for post in posts %}
+    {% if post.user in following %}
 
-  <div class="post">
-    {{ post.post }}
-  </div>
 
-{% endfor %}
+    <div class="post">
+      <a href="{% url 'profile' username=post.user %}"><strong>{{ post.user }}</strong></a>
+      <br>
+      {{ post.post }}
+      <br>
+      <div class="like">
+        {{ post.likes }} Likes
+        <a href=""class="likes">Like</a>
+      </div>
+      {{ post.time }}
+    </div>
+
+    {% else %}
+    {% endif %}
+
+  {% endfor %}
 
 
 {% endblock %}

@@ -6,12 +6,22 @@
 <h3>{{ username }}</h3>
 
 Followers:{{ followers }}
-Folowing:{{ following }}
+Following:{{ following }}
+
+{% if user_self == True %}
+<form class="follow" action="" method="post">
+  <button type="submit" name="button"disabled>Follow</button>
+  <input type="hidden" name="" value="follow_form">
+  {% csrf_token %}
+</form>
+{% elif user_self == False %}
 <form class="follow" action="" method="post">
   <button type="submit" name="button">{{ follow_status }}</button>
   <input type="hidden" name="" value="follow_form">
   {% csrf_token %}
 </form>
+{% endif %}
+
 <br>
 Posts:
 <br>
@@ -21,14 +31,19 @@ Posts:
   <div class="post">
     <a href="{% url 'profile' username=post.user %}"><strong>{{ post.user }}</strong></a>
     <br>
-    {{ post.post }}
+    <div id="post-text">
+      {{ post.post }}
+    </div>
+
     <br>
     <div class="like">
       {{ post.likes }} Likes
       <a href=""class="likes">Like</a>
     </div>
     {{ post.time }}
+    <br><a href="#"onclick="editPost()">edit</a>
   </div>
+
 {% endfor %}
 
 

@@ -12,6 +12,9 @@ class Post(models.Model):
     post = models.CharField(max_length = 140)
     likes = models.IntegerField(default=0, blank=True, null=True)
     time = models.CharField(max_length = 40, null=True)
+    class Meta:
+
+        ordering = ['-time']
 
     def __str__(self):
         return f"{self.post} by {self.user} {self.likes} Likes at {self.time}"
@@ -27,4 +30,4 @@ class Follower(models.Model):
     user_followed = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name="user_followed")
 
     def __str__(self):
-        return f"{self.user_following} follows {self.user_followed}"
+        return f"{self.user_following} followed by {self.user_followed}"
