@@ -29,9 +29,10 @@ Posts:
 {% for post in posts %}
 
   <div class="post">
+
     <a href="{% url 'profile' username=post.user %}"><strong>{{ post.user }}</strong></a>
     <br>
-    <div id="post-text">
+    <div class="post-text">
       {{ post.post }}
     </div>
 
@@ -41,7 +42,7 @@ Posts:
       <a href=""class="likes">Like</a>
     </div>
     {{ post.time }}
-    <br><a href="#"onclick="editPost()">edit</a>
+    <br><a href="#"class="edit">edit</a>
   </div>
 
 {% endfor %}

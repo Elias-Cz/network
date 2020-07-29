@@ -1,5 +1,9 @@
-function editPost() {
-  let textArea = document.createElement('textarea')
-  textArea.value = document.querySelector('#post-text').innerHTML
-  document.querySelector('.post').appendChild(textArea)
-}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.edit').forEach(edit => {
+    edit.onclick = () => {
+      let textArea = document.createElement('textarea');
+      document.querySelector('.post-text').replaceWith(textArea);
+      return false
+    };
+  });
+});
