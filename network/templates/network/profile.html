@@ -34,15 +34,15 @@ Posts:
     <br>
     <div class="post-text">
       {{ post.post }}
+      <br>
+      <input type="button" name="Edit" value="Edit"class='edit'>
     </div>
-
-    <br>
     <div class="like">
       {{ post.likes }} Likes
       <a href=""class="likes">Like</a>
     </div>
     {{ post.time }}
-    <br><a href="#"class="edit">edit</a>
+
   </div>
 
 {% endfor %}

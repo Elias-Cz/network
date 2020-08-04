@@ -106,6 +106,8 @@ def profile(request, username):
     followers = username.user_following.all().count()
     following = username.user_followed.all().count()
     # Following a user
+    if request.method == "POST" and request.POST['save_entry'] == "save_entry":
+        print("somestuff")
     if request.method == "POST" and not current_user_following:
         user_followed = current_user
         user_following = username
