@@ -32,10 +32,16 @@ Posts:
 
     <a href="{% url 'profile' username=post.user %}"><strong>{{ post.user }}</strong></a>
     <br>
-    <div class="post-text">
+    <div class="post-text"name=post>
       {{ post.post }}
       <br>
-      <input type="button" name="Edit" value="Edit"class='edit'>
+      {% if request.user == post.user %}
+      <form class="edit-form" action="" method="post">
+        <input type="button" class="edit" name="edit" value="Edit"id="{{ post.id }}">
+        <input type="hidden" class="save" name="save" value="Save">
+        {% csrf_token %}
+      </form>
+      {% endif %}
     </div>
     <div class="like">
       {{ post.likes }} Likes

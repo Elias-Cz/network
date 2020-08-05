@@ -5,3 +5,7 @@
   margin: 20px;
   width: 50%;
 }
+
+.likes {
+  cursor: pointer;
+}

@@ -21,7 +21,11 @@ class Post(models.Model):
 
 class Like(models.Model):
     user_like = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(User, on_delete=models.CASCADE, related_name="post_origin")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_origin")
+
+    def __str__(self):
+        return f"{self.user_like}"
+
 
 class Follower(models.Model):
     # User who is FOLLOWING

@@ -2,7 +2,7 @@ import datetime
 
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.core.paginator import Paginator
@@ -106,9 +106,8 @@ def profile(request, username):
     followers = username.user_following.all().count()
     following = username.user_followed.all().count()
     # Following a user
-    if request.method == "POST" and request.POST['save_entry'] == "save_entry":
-        print("somestuff")
-    if request.method == "POST" and not current_user_following:
+
+    if request.method == "POST" and not current_user_following and not user_self:
         user_followed = current_user
         user_following = username
         f = Follower(user_followed=user_followed, user_following=user_following)
@@ -124,7 +123,7 @@ def profile(request, username):
         })
 
     # Unfollowing a user
-    elif request.method == "POST" and current_user_following:
+    elif request.method == "POST" and current_user_following and not user_self:
         user_followed = current_user
         user_following = username
         Follower.objects.filter(user_followed=user_followed, user_following=user_following).delete()
@@ -172,4 +171,33 @@ def following_view(request):
     return render(request, "network/following.html",{
     "posts": posts,
     "following": following
+    })
+
+def post_edit(request, post_id, text):
+    p = Post.objects.filter(id=post_id).update(post=text)
+    text = "Post updated!"
+    return JsonResponse({
+        "text": text,
+        "id": post_id
+        })
+
+def like(request, post_id, count):
+    username = request.user
+    print(username)
+    post = get_object_or_404(Post, id=post_id)
+    post_user = Like.objects.filter(post=post, user_like=username).exists()
+    print(post_user)
+    if post_user:
+        count = count - 1
+        Like.objects.filter(post=post, user_like=username).delete()
+        Post.objects.filter(id=post_id).update(likes=count)
+        print(f'{username} unliked post {post_id}')
+    elif not post_user:
+        count = count + 1
+        Like.objects.create(post=post, user_like=username)
+        Post.objects.filter(id=post_id).update(likes=count)
+        print(f'{username} liked post {post_id}')
+    return JsonResponse({
+        "like_status": "success",
+        "new_like_count": count
     })
