@@ -1,11 +1,26 @@
 .post {
-  background-color: lightgrey;
-  border: 2px solid black;
-  border-radius: 10px;
+  background: #efefef;
+  border-radius: 4px;
+  line-height: 1.3;
   margin: 20px;
   width: 50%;
+  padding: 10px;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
 }
 
 .likes {
   cursor: pointer;
+}
+
+.new_post {
+  margin-top: 20px;
+}
+
+.login-form {
+
+  max-width: 400px;
+}
+
+.top {
+  margin-left: 30%;
 }

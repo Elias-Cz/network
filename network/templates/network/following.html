@@ -25,11 +25,12 @@
       </div>
       <div class="like">
         {{ post.likes }} Likes
-        <a href=""class="likes">Like</a>
+        <a class="likes fas fa-thumbs-up"id="{{ post.id }}"></a>
       </div>
-      {{ post.time }}
 
-    </div>
+
+      {{ post.time }}
+      </div>
 
     {% else %}
     {% endif %}

@@ -4,9 +4,7 @@ document.addEventListener('click', event => {
     console.log('post edit')
     postId = element.id
     let textArea = document.createElement('textarea');
-
     textArea.value = element.parentNode.parentNode.textContent
-
     element.parentElement.parentElement.appendChild(textArea);
     const input = element.parentNode.children[1]
     input.setAttribute("type", "submit")
@@ -14,7 +12,6 @@ document.addEventListener('click', event => {
     document.querySelector(".save").onclick = () => {
       text = textArea.value
       element.parentElement.parentElement.innerHTML = text
-
      fetch(`post/${postId}/${text}`)
      .then(response => response.json())
      .then(data => {

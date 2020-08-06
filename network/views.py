@@ -20,7 +20,8 @@ def index(request):
     if request.method == "POST":
         get_post = request.POST.get('post')
         time_now = datetime.datetime.now()
-        time = time_now.strftime("%B %d, %Y %H:%M")
+        time = time_now.strftime("%d/%m/%y %H:%M")
+
         print(get_post)
         user = request.user
         likes = 0

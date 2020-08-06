@@ -3,57 +3,63 @@
 {% block body %}
 
 {% if user.is_authenticated %}
-<h3>{{ username }}</h3>
+<div class="top">
+  <h3>{{ username }}</h3>
 
-Followers:{{ followers }}
-Following:{{ following }}
+  Followers:{{ followers }}
+  Following:{{ following }}
 
-{% if user_self == True %}
-<form class="follow" action="" method="post">
-  <button type="submit" name="button"disabled>Follow</button>
-  <input type="hidden" name="" value="follow_form">
-  {% csrf_token %}
-</form>
-{% elif user_self == False %}
-<form class="follow" action="" method="post">
-  <button type="submit" name="button">{{ follow_status }}</button>
-  <input type="hidden" name="" value="follow_form">
-  {% csrf_token %}
-</form>
-{% endif %}
+  {% if user_self == True %}
+  <form class="follow" action="" method="post">
+    <button type="submit" name="button"disabled>Follow</button>
+    <input type="hidden" name="" value="follow_form">
+    {% csrf_token %}
+  </form>
+  {% elif user_self == False %}
+  <form class="follow" action="" method="post">
+    <button type="submit" name="button">{{ follow_status }}</button>
+    <input type="hidden" name="" value="follow_form">
+    {% csrf_token %}
+  </form>
+    {% endif %}
+</div>
 
-<br>
-Posts:
-<br>
 
-{% for post in posts %}
 
-  <div class="post">
 
-    <a href="{% url 'profile' username=post.user %}"><strong>{{ post.user }}</strong></a>
-    <br>
-    <div class="post-text"name=post>
-      {{ post.post }}
-      <br>
-      {% if request.user == post.user %}
-      <form class="edit-form" action="" method="post">
-        <input type="button" class="edit" name="edit" value="Edit"id="{{ post.id }}">
-        <input type="hidden" class="save" name="save" value="Save">
-        {% csrf_token %}
-      </form>
-      {% endif %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      {% for post in posts %}
+
+      <div class="post">
+
+        <a href="{% url 'profile' username=post.user %}"><strong>{{ post.user }}</strong></a>
+        <br>
+        <div class="post-text"name=post>
+          {{ post.post }}
+          <br>
+          {% if request.user == post.user %}
+          <form class="edit-form" action="" method="post">
+            <input type="button" class="edit" name="edit" value="Edit"id="{{ post.id }}">
+            <input type="hidden" class="save" name="save" value="Save">
+            {% csrf_token %}
+          </form>
+          {% endif %}
+        </div>
+        <div class="like">
+          {{ post.likes }} Likes
+          <a class="likes fas fa-thumbs-up"id="{{ post.id }}"></a>
+        </div>
+
+
+        {{ post.time }}
+        </div>
+      {% endfor %}
+
     </div>
-    <div class="like">
-      {{ post.likes }} Likes
-      <a href=""class="likes fas fa-thumbs-up"></a>
-    </div>
-    {{ post.time }}
-
   </div>
-
-{% endfor %}
-
-
+</div>
 {% endif %}
 
 {% endblock %}

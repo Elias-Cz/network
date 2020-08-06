@@ -3,16 +3,23 @@
 {% block body %}
 
 {% if user.is_authenticated %}
-  <div class="new_post" style="margin-left: 5%;">
-    <form class="" action="" method="post">
-      <textarea name="post" rows="4" cols="40" required></textarea>
-      <br>
-      <input type="submit" name="" value="Submit">
-      {% csrf_token %}
-    </form>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="new_post" style="margin-left: 5%;">
+      <form class="" action="" method="post">
+        <textarea name="post" rows="4" cols="40" required></textarea>
+        <br>
+        <input type="submit" name="" value="Submit">
+        {% csrf_token %}
+      </form>
+    </div>
   </div>
+</div>
+
   <hr>
-  <div class="">
+  <div class="container">
+    <div class="row justify-content-center"
+      <div class="col-md-6">
     {% for post in posts %}
 
     <div class="post">
@@ -35,14 +42,13 @@
         <a class="likes fas fa-thumbs-up"id="{{ post.id }}"></a>
       </div>
 
+
       {{ post.time }}
-
-    </div>
+      </div>
     {% endfor %}
-
-
-
-
+    </div>
+  </div>
+</div>
 
 
 
