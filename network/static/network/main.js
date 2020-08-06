@@ -21,7 +21,7 @@ document.addEventListener('click', event => {
        console.log(data)
      })
    }
- } else if (element.className === 'likes') {
+ } else if (element.className === 'likes fas fa-thumbs-up') {
    console.log('post like')
    postId = element.id
    let count = parseInt(element.parentElement.textContent)
@@ -30,7 +30,7 @@ document.addEventListener('click', event => {
    .then(response => response.json())
    .then(data => {
      console.log(data)
-     element.parentElement.textContent = data.new_like_count + ' Likes'
+     element.parentElement.innerHTML = data.new_like_count + ' Likes ' + `<a class="likes fas fa-thumbs-up"></a>`
    })
  }
 });
